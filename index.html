@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>Aedy Gemini — Your Intelligent AI Assistant</title>
+<meta name="description" content="Aedy Gemini - a premium AI assistant with a personality you can shape." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22><stop offset=%220%22 stop-color=%22%238B5CF6%22/><stop offset=%221%22 stop-color=%22%232DD4BF%22/></linearGradient></defs><path d=%22M50 5 L61 39 L95 50 L61 61 L50 95 L39 61 L5 50 L39 39 Z%22 fill=%22url(%23g)%22/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/black-metal-gorgoroth.min.css">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===================== LOADING SCREEN ===================== -->
+<div id="boot-screen" class="boot-screen">
+  <div class="boot-mark">
+    <svg viewBox="0 0 100 100" class="boot-spark"><path d="M50 5 L61 39 L95 50 L61 61 L50 95 L39 61 L5 50 L39 39 Z" fill="url(#bootGrad)"/><defs><linearGradient id="bootGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient></defs></svg>
+  </div>
+</div>
+
+<!-- ===================== LANDING PAGE ===================== -->
+<main id="landing" class="landing hidden">
+  <div class="aura aura-1"></div>
+  <div class="aura aura-2"></div>
+
+  <nav class="landing-nav">
+    <div class="brand">
+      <svg viewBox="0 0 100 100" class="brand-spark"><path d="M50 5 L61 39 L95 50 L61 61 L50 95 L39 61 L5 50 L39 39 Z" fill="url(#navGrad)"/><defs><linearGradient id="navGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient></defs></svg>
+      <span>AEDY GEMINI</span>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Built by Aedy — shaped by you</p>
+    <h1 class="hero-title">Intelligence that <span class="grad-text">takes your shape.</span></h1>
+    <p class="hero-sub">Your intelligent AI assistant. Give it a name, a voice, a personality — then talk to it like it's yours.</p>
+
+    <button id="google-signin-btn" class="btn-google">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.6 5.4 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.6 5.4 29.6 3 24 3c-7.6 0-14.1 4.3-17.7 10.7z"/><path fill="#4CAF50" d="M24 45c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.4C29.5 36.2 26.9 37 24 37c-5.2 0-9.6-3.3-11.2-8l-6.6 5.1C9.8 40.6 16.3 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.3-4.1 5.7l6.6 5.4C41.5 35.6 45 30.2 45 24c0-1.2-.1-2.4-.4-3.5z"/></svg>
+      <span>Continue with Google</span>
+    </button>
+    <p id="landing-error" class="landing-error hidden"></p>
+
+    <div class="hero-features">
+      <div class="feature-chip">Editable AI personality</div>
+      <div class="feature-chip">Google Gemini powered</div>
+      <div class="feature-chip">Synced chat history</div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== APP SHELL ===================== -->
+<div id="app" class="app hidden">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-top">
+      <div class="brand brand-sm">
+        <svg viewBox="0 0 100 100" class="brand-spark"><path d="M50 5 L61 39 L95 50 L61 61 L50 95 L39 61 L5 50 L39 39 Z" fill="url(#sideGrad)"/><defs><linearGradient id="sideGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient></defs></svg>
+        <span>AEDY GEMINI</span>
+      </div>
+      <button id="close-sidebar-btn" class="icon-btn mobile-only" aria-label="Close menu">✕</button>
+    </div>
+
+    <button id="new-chat-btn" class="btn-primary btn-new-chat">
+      <span>+</span> New chat
+    </button>
+
+    <div class="sidebar-search">
+      <input id="search-input" type="text" placeholder="Search chats" autocomplete="off" />
+    </div>
+
+    <div id="chat-list" class="chat-list"></div>
+
+    <div class="sidebar-bottom">
+      <button id="settings-btn" class="sidebar-user-btn">
+        <span class="sidebar-user-icon">⚙</span>
+        <span>Settings & personality</span>
+      </button>
+      <button id="profile-btn" class="sidebar-user-btn profile-trigger">
+        <img id="user-avatar" class="avatar-sm" src="" alt="" />
+        <span id="user-name" class="truncate">—</span>
+      </button>
+    </div>
+  </aside>
+
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Main chat -->
+  <main class="main">
+    <header class="main-header">
+      <button id="open-sidebar-btn" class="icon-btn mobile-only" aria-label="Open menu">☰</button>
+      <span id="active-chat-title" class="active-chat-title">New chat</span>
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle theme">◐</button>
+      </div>
+    </header>
+
+    <div id="messages" class="messages">
+      <div id="welcome-view" class="welcome-view">
+        <div class="welcome-mark">
+          <svg viewBox="0 0 100 100" class="welcome-spark"><path d="M50 5 L61 39 L95 50 L61 61 L50 95 L39 61 L5 50 L39 39 Z" fill="url(#welGrad)"/><defs><linearGradient id="welGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient></defs></svg>
+        </div>
+        <h2 id="welcome-title">Hi, I'm Aedy Gemini.<br/>How can I help you today?</h2>
+        <div class="suggestion-grid">
+          <button class="suggestion-card" data-prompt="Explain how blockchain works, simply.">
+            <strong>Explain something</strong><span>Break down a tricky topic</span>
+          </button>
+          <button class="suggestion-card" data-prompt="Write a JavaScript function that debounces user input.">
+            <strong>Write code</strong><span>Get working, clean code</span>
+          </button>
+          <button class="suggestion-card" data-prompt="Help me study for my SPM Add Maths exam, starting with differentiation.">
+            <strong>Help me study</strong><span>Learn something new</span>
+          </button>
+          <button class="suggestion-card" data-prompt="Brainstorm 5 unique ideas for a personal portfolio website.">
+            <strong>Brainstorm ideas</strong><span>Get the creativity flowing</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="composer-wrap">
+      <div id="stop-row" class="stop-row hidden">
+        <button id="stop-btn" class="btn-stop">■ Stop generating</button>
+      </div>
+      <div class="composer">
+        <button id="attach-btn" class="icon-btn composer-icon" aria-label="Attach file" title="Attach file (coming soon)">📎</button>
+        <textarea id="composer-input" rows="1" placeholder="Message Aedy Gemini..."></textarea>
+        <button id="voice-btn" class="icon-btn composer-icon" aria-label="Voice input" title="Voice input">🎙</button>
+        <button id="send-btn" class="btn-send" aria-label="Send message">➤</button>
+      </div>
+      <p class="composer-hint">Aedy Gemini can make mistakes. Check important info.</p>
+    </div>
+  </main>
+</div>
+
+<!-- ===================== SETTINGS MODAL ===================== -->
+<div id="settings-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Settings & personality</h3>
+      <button class="icon-btn" id="close-settings-btn">✕</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="personality">Personality</button>
+      <button class="modal-tab" data-tab="appearance">Appearance</button>
+      <button class="modal-tab" data-tab="account">Account</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Personality tab -->
+      <div class="tab-panel active" id="tab-personality">
+        <label class="field-label" for="ai-name-input">Assistant name</label>
+        <input id="ai-name-input" type="text" maxlength="40" placeholder="Aedy Gemini" />
+
+        <label class="field-label" for="personality-input">Personality & instructions</label>
+        <textarea id="personality-input" rows="7" maxlength="4000" placeholder="Describe how your AI should behave, its tone, quirks, and rules. E.g. 'Be witty, blunt and answer in Manglish when I do.'"></textarea>
+        <p class="field-hint">This becomes the system instruction sent with every message. Leave blank to use the default Aedy Gemini personality.</p>
+
+        <div class="preset-row">
+          <span class="field-hint">Quick presets:</span>
+          <button class="preset-chip" data-preset="default">Default</button>
+          <button class="preset-chip" data-preset="witty">Witty & blunt</button>
+          <button class="preset-chip" data-preset="teacher">Patient teacher</button>
+          <button class="preset-chip" data-preset="coder">Senior dev</button>
+          <button class="preset-chip" data-preset="manglish">Manglish buddy</button>
+        </div>
+      </div>
+
+      <!-- Appearance tab -->
+      <div class="tab-panel" id="tab-appearance">
+        <label class="field-label">Theme</label>
+        <div class="theme-options">
+          <button class="theme-opt" data-theme="dark">Dark</button>
+          <button class="theme-opt" data-theme="light">Light</button>
+          <button class="theme-opt" data-theme="system">System</button>
+        </div>
+      </div>
+
+      <!-- Account tab -->
+      <div class="tab-panel" id="tab-account">
+        <div class="account-row">
+          <img id="settings-avatar" class="avatar-md" src="" alt="" />
+          <div>
+            <p id="settings-name" class="account-name">—</p>
+            <p id="settings-email" class="account-email">—</p>
+          </div>
+        </div>
+        <button id="logout-btn" class="btn-danger">Log out</button>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button id="save-settings-btn" class="btn-primary">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="script.js"></script>
+</body>
+</html>
