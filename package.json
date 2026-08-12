@@ -1,0 +1,15 @@
+{
+  "name": "aedy-gemini",
+  "version": "1.0.0",
+  "description": "AEDY GEMINI - Your intelligent AI assistant, built by Aedy",
+  "main": "index.html",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
