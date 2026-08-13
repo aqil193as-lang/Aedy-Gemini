@@ -1,6 +1,7 @@
 // script.js — AEDY GEMINI app logic
 import {
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
@@ -112,12 +113,18 @@ themeToggleBtn.addEventListener("click", () => {
 signInBtn.addEventListener("click", async () => {
   landingError.classList.add("hidden");
   try {
-    await signInWithPopup(auth, googleProvider);
+    await signInWithRedirect(auth, googleProvider);
   } catch (err) {
     console.error(err);
     landingError.textContent = "Sign-in failed. Please try again.";
     landingError.classList.remove("hidden");
   }
+});
+
+getRedirectResult(auth).catch((err) => {
+  console.error("Redirect sign-in error:", err);
+  landingError.textContent = "Sign-in failed. Please try again.";
+  landingError.classList.remove("hidden");
 });
 
 logoutBtn.addEventListener("click", async () => {
