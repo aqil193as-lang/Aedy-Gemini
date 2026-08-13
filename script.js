@@ -121,11 +121,21 @@ signInBtn.addEventListener("click", async () => {
   }
 });
 
-getRedirectResult(auth).catch((err) => {
-  console.error("Redirect sign-in error:", err);
-  landingError.textContent = "DEBUG: " + (err.code || "") + " — " + (err.message || err);
-  landingError.classList.remove("hidden");
-});
+getRedirectResult(auth)
+  .then((result) => {
+    if (result && result.user) {
+      landingError.textContent = "DEBUG: Got user " + result.user.email;
+      landingError.style.color = "#2DD4BF";
+    } else {
+      landingError.textContent = "DEBUG: getRedirectResult returned NO user (result was " + (result === null ? "null" : JSON.stringify(result)) + ")";
+    }
+    landingError.classList.remove("hidden");
+  })
+  .catch((err) => {
+    console.error("Redirect sign-in error:", err);
+    landingError.textContent = "DEBUG: " + (err.code || "") + " — " + (err.message || err);
+    landingError.classList.remove("hidden");
+  });
 
 logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
