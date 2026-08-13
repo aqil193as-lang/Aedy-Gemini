@@ -111,19 +111,20 @@ themeToggleBtn.addEventListener("click", () => {
    Auth
 --------------------------------------------------------- */
 signInBtn.addEventListener("click", async () => {
+signInBtn.addEventListener("click", async () => {
   landingError.classList.add("hidden");
   try {
     await signInWithRedirect(auth, googleProvider);
   } catch (err) {
     console.error(err);
-    landingError.textContent = "Sign-in failed. Please try again.";
+    landingError.textContent = "DEBUG: " + (err.code || "") + " — " + (err.message || err);
     landingError.classList.remove("hidden");
   }
 });
 
 getRedirectResult(auth).catch((err) => {
   console.error("Redirect sign-in error:", err);
-  landingError.textContent = "Sign-in failed. Please try again.";
+  landingError.textContent = "DEBUG: " + (err.code || "") + " — " + (err.message || err);
   landingError.classList.remove("hidden");
 });
 
