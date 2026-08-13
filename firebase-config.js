@@ -15,12 +15,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyDGAssYd4I9zIrbJ2_NcEhVDVjhx--GdA8",
+  authDomain: "aedygemini.firebaseapp.com",
+  projectId: "aedygemini",
+  storageBucket: "aedygemini.firebasestorage.app",
+  messagingSenderId: "963331349289",
+  appId: "1:963331349289:web:80cc02ca925cd8b0f53538",
 };
 
 const app = initializeApp(firebaseConfig);
