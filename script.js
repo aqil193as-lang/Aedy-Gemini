@@ -1,7 +1,6 @@
 // script.js — AEDY GEMINI app logic
 import {
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
@@ -113,7 +112,7 @@ themeToggleBtn.addEventListener("click", () => {
 signInBtn.addEventListener("click", async () => {
   landingError.classList.add("hidden");
   try {
-    await signInWithRedirect(auth, googleProvider);
+    await signInWithPopup(auth, googleProvider);
   } catch (err) {
     console.error(err);
     landingError.textContent = "DEBUG: " + (err.code || "") + " — " + (err.message || err);
@@ -121,21 +120,6 @@ signInBtn.addEventListener("click", async () => {
   }
 });
 
-getRedirectResult(auth)
-  .then((result) => {
-    if (result && result.user) {
-      landingError.textContent = "DEBUG: Got user " + result.user.email;
-      landingError.style.color = "#2DD4BF";
-    } else {
-      landingError.textContent = "DEBUG: getRedirectResult returned NO user (result was " + (result === null ? "null" : JSON.stringify(result)) + ")";
-    }
-    landingError.classList.remove("hidden");
-  })
-  .catch((err) => {
-    console.error("Redirect sign-in error:", err);
-    landingError.textContent = "DEBUG: " + (err.code || "") + " — " + (err.message || err);
-    landingError.classList.remove("hidden");
-  });
 
 logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
