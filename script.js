@@ -111,7 +111,6 @@ themeToggleBtn.addEventListener("click", () => {
    Auth
 --------------------------------------------------------- */
 signInBtn.addEventListener("click", async () => {
-signInBtn.addEventListener("click", async () => {
   landingError.classList.add("hidden");
   try {
     await signInWithRedirect(auth, googleProvider);
