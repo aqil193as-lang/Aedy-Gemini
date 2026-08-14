@@ -2,12 +2,13 @@
 // Secure server-side proxy to Google Gemini API.
 // The API key NEVER touches the browser - it only lives here as an
 // environment variable (GEMINI_API_KEY) set in Netlify's dashboard.
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+// Uses the Gemini REST API directly via fetch (no npm dependency needed).
 
 const DEFAULT_PERSONALITY =
   "You are Aedy Gemini, a helpful, sharp and friendly AI assistant built by Aedy. " +
   "Answer clearly and concisely. Use Markdown and code blocks when useful.";
+
+const MODEL = "gemini-2.0-flash";
 
 exports.handler = async (event) => {
   const headers = {
@@ -63,7 +64,7 @@ exports.handler = async (event) => {
 
   const MAX_MESSAGES = 60;
   const MAX_CHARS = 20000;
-  const trimmedMessages = messages.slice(-MAX_MESSAGES).map((m) => ({
+  const contents = messages.slice(-MAX_MESSAGES).map((m) => ({
     role: m.role === "assistant" ? "model" : "user",
     parts: [{ text: String(m.content || "").slice(0, MAX_CHARS) }],
   }));
@@ -71,25 +72,52 @@ exports.handler = async (event) => {
   const systemInstruction = String(personality || DEFAULT_PERSONALITY).slice(0, 4000);
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-      systemInstruction,
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
+
+    const geminiRes = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents,
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: {
+          temperature: 0.9,
+          maxOutputTokens: 2048,
+        },
+      }),
     });
 
-    const history = trimmedMessages.slice(0, -1);
-    const lastMessage = trimmedMessages[trimmedMessages.length - 1];
+    const data = await geminiRes.json();
 
-    const chat = model.startChat({
-      history,
-      generationConfig: {
-        temperature: 0.9,
-        maxOutputTokens: 2048,
-      },
-    });
+    if (!geminiRes.ok) {
+      console.error("Gemini API error response:", JSON.stringify(data));
+      return {
+        statusCode: 502,
+        headers,
+        body: JSON.stringify({
+          error: "Sorry, Aedy Gemini couldn't generate a response right now. Please try again.",
+        }),
+      };
+    }
 
-    const result = await chat.sendMessage(lastMessage.parts[0].text);
-    const text = result.response.text();
+    const text =
+      data.candidates &&
+      data.candidates[0] &&
+      data.candidates[0].content &&
+      data.candidates[0].content.parts &&
+      data.candidates[0].content.parts[0] &&
+      data.candidates[0].content.parts[0].text;
+
+    if (!text) {
+      console.error("Unexpected Gemini response shape:", JSON.stringify(data));
+      return {
+        statusCode: 502,
+        headers,
+        body: JSON.stringify({
+          error: "Sorry, Aedy Gemini couldn't generate a response right now. Please try again.",
+        }),
+      };
+    }
 
     return {
       statusCode: 200,
